@@ -1,2 +1,6 @@
 # Sunnyside
-Weather mobile application using the Flutter framework.
+Weather app on Flutter
+
+Weather mobile application based on the beautiful design of [Olia Gozha](https://dribbble.com/shots/4663154-).
+
+## Packages used:
