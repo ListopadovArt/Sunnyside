@@ -1,12 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:sunnyside/utilities/constants.dart';
+import 'package:sunnyside/services/weather.dart';
 
 class LocationScreen extends StatefulWidget {
+  LocationScreen({required this.locationWeather});
+
+  final locationWeather;
+
   @override
   _LocationScreenState createState() => _LocationScreenState();
 }
 
 class _LocationScreenState extends State<LocationScreen> {
+  late String cityName;
+  late int temperature;
+  late String message;
+  late String icon;
+
+  @override
+  void initState() {
+    super.initState();
+    var weatherDate = widget.locationWeather; // Данные из экрана Loading
+    updateUI(weatherDate);
+  }
+
+  void updateUI(dynamic weatherDate) {
+    WeatherModel weather = WeatherModel();
+
+    setState(() {
+      cityName = weatherDate['name'];
+
+      var condition = weatherDate['weather'][0]['id'];
+      icon = weather.getWeatherIcon(condition);
+
+      double temp = weatherDate['main']['temp'];
+      temperature = temp.toInt();
+
+      message = weather.getMessage(temperature);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,25 +77,25 @@ class _LocationScreenState extends State<LocationScreen> {
                   ),
                 ],
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(left: 15.0),
                 child: Row(
                   children: <Widget>[
                     Text(
-                      '32°',
+                      "$temperature°",
                       style: kTempTextStyle,
                     ),
                     Text(
-                      '☀️',
+                      icon,
                       style: kConditionTextStyle,
                     ),
                   ],
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(right: 15.0),
                 child: Text(
-                  "It's 🍦 time in San Francisco!",
+                  "$message in $cityName!",
                   textAlign: TextAlign.right,
                   style: kMessageTextStyle,
                 ),
