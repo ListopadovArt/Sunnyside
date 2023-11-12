@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sunnyside/utilities/constants.dart';
 import 'package:sunnyside/services/weather.dart';
+import 'package:sunnyside/screens/city_screen.dart';
 
 class LocationScreen extends StatefulWidget {
   LocationScreen({required this.locationWeather});
@@ -77,7 +78,16 @@ class _LocationScreenState extends State<LocationScreen> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return CityScreen();
+                          },
+                        ),
+                      );
+                    },
                     child: const Icon(
                       Icons.location_city,
                       size: 50.0,
