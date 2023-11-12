@@ -1,4 +1,22 @@
+import 'package:sunnyside/services/networking.dart';
+import 'package:sunnyside/services/location.dart';
+
+const apiKey = "52698c8333fd8fe9d13e3265b6d93ebf";
+const openWeatherMapURL = "https://api.openweathermap.org/data/2.5/weather";
+
 class WeatherModel {
+  Future<dynamic> getLocationWeather() async {
+    Location location = Location();
+    await location.getCurrentLocation();
+
+    NetworkManager manager = NetworkManager(
+        url:
+            "$openWeatherMapURL?lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey&units=metric");
+
+    var weatherDate = await manager.getData();
+    return weatherDate;
+  }
+
   String getWeatherIcon(int condition) {
     if (condition < 300) {
       return '🌩';
